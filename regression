@@ -1,0 +1,44 @@
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
+
+df = pd.DataFrame([
+    [1000, 2, 10, 50],
+    [1500, 3, 5, 80],
+    [1200, 2, 8, 60],
+    [1800, 3, 4, 90],
+    [2400, 4, 2, 130],
+    [3000, 4, 1, 150],
+    [3500, 5, 3, 180],
+    [2000, 3, 6, 95],
+    [2200, 3, 7, 100],
+    [1600, 2, 15, 65],
+], columns=["Area", "Bedrooms", "Age", "Price"])
+
+
+
+X = df.drop("Price", axis=1)
+y = df['Price']  # replace with target column
+
+X_train, X_test, y_train, y_test = train_test_split(X, y)
+
+regressor = LinearRegression()
+
+regressor.fit(X_train, y_train)
+
+y_pred = regressor.predict(X_test)
+
+print(y_pred)
+
+r2 = r2_score(y_test, y_pred)
+mse = mean_squared_error(y_test, y_pred)
+mae = mean_absolute_error(y_test, y_pred)
+
+print(r2)
+print(mse)
+print(mae)
+
+# For simple linear regression, there will only be two columns in the dataset. 
+# rest of the code remains same
