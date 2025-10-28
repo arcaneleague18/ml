@@ -1,35 +1,55 @@
-import pandas as pd
 import numpy as np
 
-# --- Step 1: Create dataset ---
-data = pd.DataFrame([
-    ['Sunny', 'Warm', 'Normal', 'Strong', 'Warm', 'Same', 'Yes'],
-    ['Sunny', 'Warm', 'High', 'Strong', 'Warm', 'Same', 'Yes'],
-    ['Rainy', 'Cold', 'High', 'Strong', 'Warm', 'Change', 'No'],
-    ['Sunny', 'Warm', 'High', 'Strong', 'Cool', 'Change', 'Yes']
-], columns=['Sky', 'AirTemp', 'Humidity', 'Wind', 'Water', 'Forecast', 'EnjoySport'])
 
-X, y = data.iloc[:, :-1].values, data.iloc[:, -1].values
+def candidate_elimination(concepts, target) :
+    '''
+    concepts: list of training examples
+    target: list of target labels ('Yes'/'No')
+    '''
 
-# --- Step 2: Candidate Elimination ---
-def candidate_elimination(X, y):
-    S = X[y == "Yes"][0].copy()                    # First positive example
-    G = [['?' for _ in range(len(S))]]             # Most general hypothesis
+    # Initialize specific hypothesis to the first positive example
+    specific_h = concepts [ 0 ].copy ( )
+    print ( "Initialization of specific hypothesis:", specific_h )
 
-    for i, val in enumerate(y):
-        if val == "Yes":
-            for j in range(len(S)):
-                if S[j] != X[i][j]:
-                    S[j] = '?'
-            G = [g for g in G if all(g[k] == '?' or g[k] == S[k] for k in range(len(S)))]
-        else:
-            G = [g for g in G for j in range(len(S))
-                 if g[j] == '?' and S[j] != X[i][j]
-                 and not all(X[i][k] == g[k] or g[k] == '?' for k in range(len(S)))
-                 and [S[j] if k == j else g[k] for k in range(len(S))]]
-    return S, G
+    # Initialize general hypothesis with the most general hypothesis
+    general_h = [ [ '?' for _ in range ( len ( specific_h ) ) ] for _ in range ( len ( specific_h ) ) ]
+    print ( "Initialization of general hypothesis:", general_h )
 
-# --- Step 3: Run ---
-S_final, G_final = candidate_elimination(X, y)
-print("Most Specific Hypothesis (S):", S_final)
-print("Most General Hypotheses (G):", G_final)
+    for i, h in enumerate ( concepts ) :
+        if target [ i ] == "Yes" :
+            for x in range ( len ( specific_h ) ) :
+                if h [ x ] != specific_h [ x ] :
+                    specific_h [ x ] = '?'
+                    general_h [ x ] [ x ] = '?'
+        elif target [ i ] == "No" :
+            for x in range ( len ( specific_h ) ) :
+                if h [ x ] != specific_h [ x ] :
+                    general_h [ x ] [ x ] = specific_h [ x ]
+                else :
+                    general_h [ x ] [ x ] = '?'
+        print ( "\nStep", i + 1 )
+        print ( "Instance:", h )
+        print ( "Target:", target [ i ] )
+        print ( "Specific hypothesis:", specific_h )
+        print ( "General hypothesis:", general_h )
+
+    # Remove duplicates
+    general_h = [ g for g in general_h if g != [ '?' for _ in range ( len ( specific_h ) ) ] ]
+    return specific_h, general_h
+
+
+# Example Training Data
+concepts = np.array ( [
+    [ 'Sunny', 'Warm', 'Normal', 'Strong', 'Warm', 'Same' ],
+    [ 'Sunny', 'Warm', 'High', 'Strong', 'Warm', 'Same' ],
+    [ 'Rainy', 'Cold', 'High', 'Strong', 'Warm', 'Change' ],
+    [ 'Sunny', 'Warm', 'High', 'Strong', 'Cool', 'Change' ]
+] )
+
+target = np.array ( [ 'Yes', 'Yes', 'No', 'Yes' ] )
+
+# Run Candidate Elimination
+s_final, g_final = candidate_elimination ( concepts, target )
+
+print ( "\nFinal Specific Hypothesis:\n", s_final )
+print ( "\nFinal General Hypotheses:\n", g_final )
