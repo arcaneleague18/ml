@@ -1,21 +1,32 @@
 import pandas as pd
 from sklearn.cluster import KMeans
 
-data = {
-    'CustomerID': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    'Age': [22, 25, 47, 52, 46, 56, 55, 60, 23, 28],
-    'Annual_Income': [15000, 18000, 40000, 52000, 48000, 60000, 58000, 62000, 17000, 20000]
-}
+df = pd.DataFrame([
+    [23, 15000, 39],
+    [25, 18000, 81],
+    [28, 20000, 6],
+    [35, 35000, 77],
+    [40, 40000, 40],
+    [45, 45000, 42],
+    [52, 52000, 65],
+    [58, 58000, 48],
+    [60, 60000, 55],
+    [62, 62000, 50],
+], columns=['Age', 'Annual_Income', 'Spending_Score'])
 
-df = pd.DataFrame(data)
-print("Customer Data:", df)
+print("Customer Dataset:\n", df)
 
-X = df[['Age', 'Annual_Income']]
+# Step 2: Apply K-Means clustering
+X = df[['Age', 'Annual_Income', 'Spending_Score']]
 
 kmeans = KMeans(n_clusters=3, random_state=0)
 df['Cluster'] = kmeans.fit_predict(X)
 
-
+# Step 3: Display results
 print("\nCluster Centers:\n", kmeans.cluster_centers_)
+print("\nClustered Data:\n", df)
+
+
+
 
 
