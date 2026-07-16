@@ -2,29 +2,29 @@
 
 def find_s(examples):
     """
+    Find-S algorithm implementation for learning the most specific hypothesis.
     examples: list of tuples (attributes, label)
     attributes: list of attribute values
     label: 'Yes' for positive examples, 'No' for negative
+    Returns:
+        hypothesis: list representing the final hypothesis
     """
-
     # Step 1: Initialize hypothesis with the first positive example
+    hypothesis = None
     for attributes, label in examples:
-        if label.lower() == 'yes':
+        if label.strip().lower() == 'yes':
             hypothesis = attributes.copy()
             break
-    else:
+    if hypothesis is None:
         raise ValueError("No positive example found in training data!")
 
     # Step 2: For each example, update the hypothesis
     for attributes, label in examples:
-        if label.lower() == 'yes':
+        if label.strip().lower() == 'yes':
             for i in range(len(hypothesis)):
                 if hypothesis[i] != attributes[i]:
                     hypothesis[i] = '?'  # generalize
-                # ignore negative examples
-
     return hypothesis
-
 
 
 # Training data: (attribute list, label)
