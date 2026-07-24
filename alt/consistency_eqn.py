@@ -1,4 +1,5 @@
 import pandas as pd
+from typing import List
 
 # --- Step 1: Create dataset ---
 data = pd.DataFrame([
@@ -15,19 +16,15 @@ y = data.iloc[:, -1].values
 # --- Step 3: Define hypothesis ---
 hypothesis = ['Sunny', 'Warm', '?', 'Strong', '?', '?']
 
-# --- Step 4: Define consistency check function ---
-def is_consistent(X, y, h):
-    for i in range(len(X)):  # for each training example
-        match = True
-        # Check each feature one by one
-        for j in range(len(h)):
-            if not (h[j] == X[i][j] or h[j] == '?'):
-                match = False
-                break  # no need to check further for this example
-        # Check for inconsistency
-        if match and y[i] == "No":
-            return False
-        elif not match and y[i] == "Yes":
+def is_consistent(X, y, h: List[str]) -> bool:
+    """
+    Checks if hypothesis h is consistent with all training examples (X, y).
+    Returns True if consistent, False otherwise.
+    """
+    for i in range(len(X)):
+        match = all(h[j] == X[i][j] or h[j] == '?' for j in range(len(h)))
+        # Inconsistent if it predicts Yes when label is No, or No when label is Yes
+        if (match and y[i] == "No") or (not match and y[i] == "Yes"):
             return False
     return True
 
@@ -39,20 +36,11 @@ print("\nExample-wise consistency check:\n")
 
 # --- Step 6: Per-example check ---
 for i in range(len(X)):
-    match = True
-    for j in range(len(hypothesis)):
-        if not (hypothesis[j] == X[i][j] or hypothesis[j] == '?'):
-            match = False
-            break
-
-    # Example-level consistency
-    if match and y[i] == "No":
-        example_consistent = False
-    elif not match and y[i] == "Yes":
+    match = all(hypothesis[j] == X[i][j] or hypothesis[j] == '?' for j in range(len(hypothesis)))
+    if (match and y[i] == "No") or (not match and y[i] == "Yes"):
         example_consistent = False
     else:
         example_consistent = True
-
     print(f"Example {i+1}: Features = {list(X[i])}, Label = {y[i]}")
-    print(f"  → Matches Hypothesis: {match}")
-    print(f"  → Example is {'Consistent' if example_consistent else 'Inconsistent'}\n")
+    print(f"   Matches Hypothesis: {match}")
+    print(f"   Example is {'Consistent' if example_consistent else 'Inconsistent'}\n")
