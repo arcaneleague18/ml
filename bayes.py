@@ -1,5 +1,8 @@
 import pandas as pd
-from pomegranate import BayesianNetwork
+try:
+    from pomegranate import BayesianNetwork
+except ImportError:
+    raise ImportError("pomegranate is required for Bayesian Network. Install via pip install pomegranate.")
 
 # Step 1: Create dataset
 df = pd.DataFrame([
