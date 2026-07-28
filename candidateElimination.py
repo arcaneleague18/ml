@@ -55,6 +55,20 @@ def candidate_elimination(concepts: np.ndarray, target: np.ndarray) -> Tuple[Lis
     general_h = unique_general_h
     return specific_h, general_h
 
+def test_candidate_elimination():
+    concepts = np.array([
+        [ 'Sunny', 'Warm', 'Normal', 'Strong', 'Warm', 'Same' ],
+        [ 'Sunny', 'Warm', 'High', 'Strong', 'Warm', 'Same' ],
+        [ 'Rainy', 'Cold', 'High', 'Strong', 'Warm', 'Change' ],
+        [ 'Sunny', 'Warm', 'High', 'Strong', 'Cool', 'Change' ]
+    ])
+    target = np.array([ 'Yes', 'Yes', 'No', 'Yes' ])
+    s_final, g_final = candidate_elimination(concepts, target)
+    assert isinstance(s_final, (list, np.ndarray)), "Output specific_h should be a list or np.ndarray"
+    assert isinstance(g_final, list), "Output general_h should be a list"
+    assert len(s_final) == concepts.shape[1], "specific_h length must match concept attributes"
+    print("\nTest passed: candidate_elimination basic output checks.")
+
 if __name__ == "__main__":
     # Example Training Data
     concepts = np.array([
@@ -71,3 +85,6 @@ if __name__ == "__main__":
 
     print("\nFinal Specific Hypothesis:\n", s_final)
     print("\nFinal General Hypotheses:\n", g_final)
+
+    # Run test
+    test_candidate_elimination()

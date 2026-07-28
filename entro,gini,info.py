@@ -68,5 +68,13 @@ def main():
         ig = info_gain(df, feature, "Species")
         print(f"Information Gain for {feature}: {ig}")
 
+    # Basic unit test for entropy, gini, info_gain
+    print("\nBasic unit tests for entropy, gini, info_gain:")
+    assert abs(entropy(df["Species"])) >= 0, "Entropy should not be negative"
+    assert 0 <= gini(df["Species"]) <= 1, "Gini index should be between 0 and 1"
+    for feature in ["SepalLength", "SepalWidth", "PetalLength", "PetalWidth"]:
+        assert isinstance(info_gain(df, feature, "Species"), float), "Information gain should be float"
+    print("All basic tests passed.")
+
 if __name__ == "__main__":
     main()

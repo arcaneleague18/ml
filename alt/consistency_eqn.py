@@ -42,5 +42,5 @@ for i in range(len(X)):
     else:
         example_consistent = True
     print(f"Example {i+1}: Features = {list(X[i])}, Label = {y[i]}")
-    print(f"   Matches Hypothesis: {match}")
-    print(f"   Example is {'Consistent' if example_consistent else 'Inconsistent'}\n")
+    print(f"  Matches Hypothesis: {match}")
+    print(f"  Example is {'Consistent' if example_consistent else 'Inconsistent'}\n")
