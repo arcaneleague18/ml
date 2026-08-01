@@ -27,14 +27,33 @@ def find_s(examples):
                     hypothesis[i] = '?'  # generalize
     return hypothesis
 
+def test_find_s():
+    """
+    Simple unit test for the Find-S algorithm.
+    """
+    dataset = [
+        (["Sunny", "Warm", "Normal", "Strong", "Warm", "Same"], "Yes"),
+        (["Sunny", "Warm", "High", "Strong", "Warm", "Same"], "Yes"),
+        (["Rainy", "Cold", "High", "Strong", "Warm", "Change"], "No"),
+        (["Sunny", "Warm", "High", "Strong", "Cool", "Change"], "Yes")
+    ]
+    expected = ['Sunny', 'Warm', '?', 'Strong', '?', '?']
+    result = find_s(dataset)
+    assert isinstance(result, list), "Find-S should return a list."
+    assert len(result) == 6, "Hypothesis should match attribute length."
+    assert result == expected, f"Expected {expected}, got {result}"
+    print("Find-S test passed.")
+
 if __name__ == "__main__":
     # Training data: (attribute list, label)
     dataset = [
-        (['Sunny', 'Warm', 'Normal', 'Strong', 'Warm', 'Same'], 'Yes'),
-        (['Sunny', 'Warm', 'High', 'Strong', 'Warm', 'Same'], 'Yes'),
-        (['Rainy', 'Cold', 'High', 'Strong', 'Warm', 'Change'], 'No'),
-        (['Sunny', 'Warm', 'High', 'Strong', 'Cool', 'Change'], 'Yes')
+        (["Sunny", "Warm", "Normal", "Strong", "Warm", "Same"], "Yes"),
+        (["Sunny", "Warm", "High", "Strong", "Warm", "Same"], "Yes"),
+        (["Rainy", "Cold", "High", "Strong", "Warm", "Change"], "No"),
+        (["Sunny", "Warm", "High", "Strong", "Cool", "Change"], "Yes")
     ]
 
     final_hypothesis = find_s(dataset)
     print("Final Hypothesis:", final_hypothesis)
+    # Run unit test
+    test_find_s()
