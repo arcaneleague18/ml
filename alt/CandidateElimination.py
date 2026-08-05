@@ -57,6 +57,7 @@ def candidate_elimination(concepts, target):
 def test_candidate_elimination():
     """
     Simple unit test for candidate_elimination algorithm.
+    Checks for basic output types and shape.
     """
     concepts = np.array([
         [ 'Sunny', 'Warm', 'Normal', 'Strong', 'Warm', 'Same' ],
