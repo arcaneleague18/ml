@@ -30,6 +30,7 @@ def find_s(examples):
 def test_find_s():
     """
     Simple unit test for the Find-S algorithm.
+    Checks for correctness and expected output.
     """
     dataset = [
         (["Sunny", "Warm", "Normal", "Strong", "Warm", "Same"], "Yes"),
