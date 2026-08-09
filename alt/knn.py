@@ -3,9 +3,9 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.model_selection import train_test_split
+from typing import Tuple
 
-
-def generate_two_class_2d_data(seed=42):
+def generate_two_class_2d_data(seed: int=42) -> Tuple[np.ndarray, np.ndarray]:
     """
     Generate a simple 2-class, 2D synthetic dataset for KNN.
     Returns:
@@ -20,7 +20,11 @@ def generate_two_class_2d_data(seed=42):
     return X, y
 
 
-def main():
+def main() -> None:
+    """
+    Train and evaluate a simple KNN classifier on a synthetic 2D dataset.
+    Prints confusion matrix and accuracy score.
+    """
     X, y = generate_two_class_2d_data()
     # Train/test split
     X_train_raw, X_test_raw, y_train, y_test = train_test_split(

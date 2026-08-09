@@ -55,7 +55,11 @@ def candidate_elimination(concepts: np.ndarray, target: np.ndarray) -> Tuple[Lis
     general_h = unique_general_h
     return specific_h, general_h
 
-def test_candidate_elimination():
+def test_candidate_elimination() -> None:
+    """
+    Simple unit test for candidate_elimination algorithm.
+    Checks for basic output types and shape.
+    """
     concepts = np.array([
         [ 'Sunny', 'Warm', 'Normal', 'Strong', 'Warm', 'Same' ],
         [ 'Sunny', 'Warm', 'High', 'Strong', 'Warm', 'Same' ],

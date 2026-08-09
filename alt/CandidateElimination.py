@@ -1,14 +1,15 @@
 import numpy as np
+from typing import List, Tuple, Any
 
-def candidate_elimination(concepts, target):
+def candidate_elimination(concepts: np.ndarray, target: np.ndarray) -> Tuple[List[Any], List[List[Any]]]:
     '''
     Candidate Elimination Algorithm for concept learning.
     Args:
-        concepts: list/array of training examples (each row is an instance)
-        target: list/array of target labels ('Yes'/'No')
+        concepts (np.ndarray): Training examples, each row is an instance.
+        target (np.ndarray): Target labels (e.g., 'Yes'/'No').
     Returns:
-        specific_h: the final specific hypothesis
-        general_h: list of final general hypotheses
+        specific_h: The final specific hypothesis (most specific consistent with data).
+        general_h: List of final general hypotheses (most general consistent with data).
     '''
     # Initialize specific hypothesis to the first positive example
     specific_h = None
@@ -54,7 +55,7 @@ def candidate_elimination(concepts, target):
     general_h = unique_general_h
     return specific_h, general_h
 
-def test_candidate_elimination():
+def test_candidate_elimination() -> None:
     """
     Simple unit test for candidate_elimination algorithm.
     Checks for basic output types and shape.
