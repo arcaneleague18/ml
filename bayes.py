@@ -83,6 +83,11 @@ def test_bayes_discretization():
     # Test that no NA values in categories
     assert df['Income_cat'].isnull().sum() == 0, "Income_cat has NaNs."
     assert df['Loan_cat'].isnull().sum() == 0, "Loan_cat has NaNs."
+    # Test all categories are in allowed values
+    allowed_income = {'Low', 'Medium', 'High'}
+    allowed_loan = {'Small', 'Medium', 'Large'}
+    assert set(df['Income_cat'].unique()) <= allowed_income, "Unexpected categories in Income_cat."
+    assert set(df['Loan_cat'].unique()) <= allowed_loan, "Unexpected categories in Loan_cat."
     print("test_bayes_discretization passed.")
 
 def test_bayes_predictions_shape():
@@ -93,6 +98,8 @@ def test_bayes_predictions_shape():
     model = train_bayesian_network(df)
     predictions = model.predict(df)
     assert len(predictions) == len(df), "Prediction shape mismatch with input rows."
+    # Test predictions shape matches input shape
+    assert predictions.shape == df.shape, "Prediction matrix shape mismatch."
     print("test_bayes_predictions_shape passed.")
 
 if __name__ == "__main__":
