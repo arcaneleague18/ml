@@ -1,4 +1,5 @@
 import numpy as np
+from typing import List, Tuple, Any
 
 def candidate_elimination(concepts, target):
     '''
@@ -57,7 +58,7 @@ def candidate_elimination(concepts, target):
 def test_candidate_elimination():
     """
     Simple unit test for candidate_elimination algorithm.
-    Checks for basic output types and shape.
+    Checks for basic output types and shape, including edge cases.
     """
     concepts = np.array([
         [ 'Sunny', 'Warm', 'Normal', 'Strong', 'Warm', 'Same' ],
@@ -70,6 +71,15 @@ def test_candidate_elimination():
     assert isinstance(s_final, (list, np.ndarray)), "Output specific_h should be a list or np.ndarray"
     assert isinstance(g_final, list), "Output general_h should be a list"
     assert len(s_final) == concepts.shape[1], "specific_h length must match concept attributes"
+    # Edge case: all negative
+    try:
+        candidate_elimination(np.array([
+            [ 'Rainy', 'Cold', 'High', 'Strong', 'Warm', 'Change' ],
+            [ 'Sunny', 'Warm', 'High', 'Strong', 'Cool', 'Change' ]
+        ]), np.array(['No', 'No']))
+        assert False, "Should raise ValueError when no positive examples."
+    except ValueError:
+        pass
     print("\nTest passed: candidate_elimination basic output checks.")
 
 if __name__ == "__main__":

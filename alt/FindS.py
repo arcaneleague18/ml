@@ -43,6 +43,15 @@ def test_find_s():
     assert isinstance(result, list), "Find-S should return a list."
     assert len(result) == 6, "Hypothesis should match attribute length."
     assert result == expected, f"Expected {expected}, got {result}"
+    # Edge case: All negative examples
+    try:
+        find_s([
+            (["Rainy", "Cold", "High", "Strong", "Warm", "Change"], "No"),
+            (["Sunny", "Warm", "High", "Strong", "Cool", "Change"], "No")
+        ])
+        assert False, "Should raise ValueError when no positive examples are present."
+    except ValueError:
+        pass
     print("Find-S test passed.")
 
 if __name__ == "__main__":
