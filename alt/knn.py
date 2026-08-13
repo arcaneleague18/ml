@@ -5,7 +5,7 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.model_selection import train_test_split
 from typing import Tuple
 
-def generate_two_class_2d_data(seed: int=42) -> Tuple[np.ndarray, np.ndarray]:
+def generate_two_class_2d_data(seed: int = 42) -> Tuple[np.ndarray, np.ndarray]:
     """
     Generate a simple 2-class, 2D synthetic dataset for KNN.
     Returns:
@@ -16,7 +16,7 @@ def generate_two_class_2d_data(seed: int=42) -> Tuple[np.ndarray, np.ndarray]:
     class1 = np.random.randn(50, 2) + np.array([2, 2])
     class2 = np.random.randn(50, 2) + np.array([6, 6])
     X = np.vstack((class1, class2))
-    y = np.array([0]*50 + [1]*50)
+    y = np.array([0] * 50 + [1] * 50)
     return X, y
 
 
