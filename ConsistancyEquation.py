@@ -1,3 +1,7 @@
+"""
+Module: ConsistancyEquation.py
+Purpose: Checks if a given hypothesis is consistent with training data using a simple dataset.
+"""
 import pandas as pd
 from typing import List
 

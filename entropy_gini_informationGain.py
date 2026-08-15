@@ -1,9 +1,15 @@
+'''
+Module: entropy_gini_informationGain.py
+Purpose: Compute entropy, Gini index, and information gain for a decision tree classifier on the Iris dataset.
+'''
+
 from sklearn.datasets import load_iris
 from sklearn.tree import DecisionTreeClassifier
 import numpy as np
 from math import log2
+from typing import Sequence
 
-def entropy(c):
+def entropy(c: Sequence[float]) -> float:
     """
     Compute the entropy for a count vector c (class counts).
     Args:
@@ -12,9 +18,11 @@ def entropy(c):
         float: entropy value.
     """
     s = sum(c)
+    if s == 0:
+        return 0.0
     return -sum((x/s)*log2(x/s) for x in c if x > 0)
 
-def gini(c):
+def gini(c: Sequence[float]) -> float:
     """
     Compute the Gini index for a count vector c (class counts).
     Args:
@@ -23,9 +31,11 @@ def gini(c):
         float: gini index.
     """
     s = sum(c)
+    if s == 0:
+        return 0.0
     return 1 - sum((x/s)**2 for x in c)
 
-def info_gain(parent, left, right):
+def info_gain(parent: Sequence[float], left: Sequence[float], right: Sequence[float]) -> float:
     """
     Compute information gain given parent, left, and right node class counts.
     Args:
@@ -36,33 +46,36 @@ def info_gain(parent, left, right):
         float: information gain value
     """
     s = sum(parent)
+    if s == 0:
+        return 0.0
     return entropy(parent) - (
         (sum(left)/s)*entropy(left) +
         (sum(right)/s)*entropy(right)
     )
 
-# dataset
-X, y = load_iris(return_X_y=True)
-# Replace this with the dataset given if needed
+if __name__ == "__main__":
+    # Load Iris dataset
+    X, y = load_iris(return_X_y=True)
 
-# train tree
-clf = DecisionTreeClassifier(max_depth=3)
-clf.fit(X, y)
+    # Train decision tree
+    clf = DecisionTreeClassifier(max_depth=3)
+    clf.fit(X, y)
 
-t = clf.tree_
+    t = clf.tree_
 
-# Print node statistics (entropy, gini, info gain)
-for i in range(t.node_count):
-    c = t.value[i][0]
-    print(f"Node {i}:")
-    print("  Counts:", c)
-    print("  Entropy:", round(entropy(c), 4))
-    print("  Gini:", round(gini(c), 4))
+    # Print node statistics (entropy, gini, info gain)
+    print("\nNode statistics for decision tree:")
+    for i in range(t.node_count):
+        c = t.value[i][0]
+        print(f"Node {i}:")
+        print("  Counts:", c)
+        print("  Entropy:", round(entropy(c), 4))
+        print("  Gini:", round(gini(c), 4))
 
-    l, r = t.children_left[i], t.children_right[i]
+        l, r = t.children_left[i], t.children_right[i]
 
-    if l != -1:
-        left = t.value[l][0]
-        right = t.value[r][0]
-        print("  Info Gain:", round(info_gain(c, left, right), 4))
-    print()
+        if l != -1:
+            left = t.value[l][0]
+            right = t.value[r][0]
+            print("  Info Gain:", round(info_gain(c, left, right), 4))
+        print()

@@ -1,3 +1,7 @@
+"""
+Module: entro,gini,info.py
+Purpose: Implements entropy, Gini index, and information gain computations with a small dataset and basic tests.
+"""
 import pandas as pd
 import math
 from typing import Any
@@ -43,6 +47,9 @@ def info_gain(df: pd.DataFrame, attribute: str, target: str) -> float:
     return total_entropy - weighted_entropy
 
 def main():
+    """
+    Runs entropy, Gini index, and information gain computations on a small example dataset.
+    """
     # ---- Load the data ----
     df = pd.DataFrame([
         [5.1, 3.5, 1.4, 0.2, "Iris-setosa"],
@@ -71,9 +78,11 @@ def main():
     # Basic unit test for entropy, gini, info_gain
     print("\nBasic unit tests for entropy, gini, info_gain:")
     assert abs(entropy(df["Species"])) >= 0, "Entropy should not be negative"
-    assert 0 <= gini(df["Species"]) <= 1, "Gini index should be between 0 and 1"
+    g = gini(df["Species"])
+    assert 0 <= g <= 1, f"Gini index should be between 0 and 1, got {g}"
     for feature in ["SepalLength", "SepalWidth", "PetalLength", "PetalWidth"]:
-        assert isinstance(info_gain(df, feature, "Species"), float), "Information gain should be float"
+        out = info_gain(df, feature, "Species")
+        assert isinstance(out, float), f"Information gain should be float, got {type(out)}"
     print("All basic tests passed.")
 
 if __name__ == "__main__":

@@ -1,4 +1,7 @@
-# Find-S Algorithm Implementation
+"""
+Module: alt/FindS.py
+Purpose: Implementation of the Find-S algorithm for concept learning.
+"""
 
 def find_s(examples):
     """
@@ -9,12 +12,14 @@ def find_s(examples):
             label: 'Yes' for positive examples, 'No' for negative
     Returns:
         hypothesis: list representing the final hypothesis
+    Raises:
+        ValueError: If no positive example is found.
     """
     # Step 1: Initialize hypothesis with the first positive example
     hypothesis = None
     for attributes, label in examples:
         if label.strip().lower() == 'yes':
-            hypothesis = attributes.copy()  # ensure a copy
+            hypothesis = attributes.copy()
             break
     if hypothesis is None:
         raise ValueError("No positive example found in training data!")

@@ -1,3 +1,7 @@
+"""
+Module: alt/consistency_eqn.py
+Purpose: Checks the consistency of a hypothesis with a dataset, including per-example analysis.
+"""
 import pandas as pd
 from typing import List
 
@@ -19,7 +23,12 @@ hypothesis = ['Sunny', 'Warm', '?', 'Strong', '?', '?']
 def is_consistent(X, y, h: List[str]) -> bool:
     """
     Checks if hypothesis h is consistent with all training examples (X, y).
-    Returns True if consistent, False otherwise.
+    Args:
+        X: Features matrix
+        y: Target values
+        h: Hypothesis (list)
+    Returns:
+        bool: True if consistent, False otherwise.
     """
     for i in range(len(X)):
         match = all(h[j] == X[i][j] or h[j] == '?' for j in range(len(h)))
