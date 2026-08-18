@@ -59,7 +59,10 @@ def test_find_s():
         pass
     print("Find-S test passed.")
 
-if __name__ == "__main__":
+def main():
+    """
+    Run Find-S algorithm on a sample dataset and display the result.
+    """
     # Training data: (attribute list, label)
     dataset = [
         (["Sunny", "Warm", "Normal", "Strong", "Warm", "Same"], "Yes"),
@@ -72,3 +75,6 @@ if __name__ == "__main__":
     print("Final Hypothesis:", final_hypothesis)
     # Run unit test
     test_find_s()
+
+if __name__ == "__main__":
+    main()
