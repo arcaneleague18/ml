@@ -1,10 +1,11 @@
 import pandas as pd
+from typing import Any
 try:
     from pomegranate import BayesianNetwork
 except ImportError:
     raise ImportError("pomegranate is required for Bayesian Network. Install via pip install pomegranate.")
 
-def build_dataset():
+def build_dataset() -> pd.DataFrame:
     """
     Create and preprocess the loan dataset for Bayesian Network.
     Returns:
@@ -25,12 +26,14 @@ def build_dataset():
     # Discretize ApplicantIncome (Low / Medium / High)
     df['Income_cat'] = pd.cut(df['ApplicantIncome'],
                               bins=[0, 3000, 5000, 7000],
-                              labels=['Low', 'Medium', 'High'])
+                              labels=['Low', 'Medium', 'High'],
+                              include_lowest=True)
 
     # Discretize LoanAmount (Small / Medium / Large)
     df['Loan_cat'] = pd.cut(df['LoanAmount'],
                             bins=[0, 100, 130, 200],
-                            labels=['Small', 'Medium', 'Large'])
+                            labels=['Small', 'Medium', 'Large'],
+                            include_lowest=True)
 
     # Final categorical dataset
     df = df[['Income_cat', 'Loan_cat', 'Loan_Status']]
@@ -47,7 +50,7 @@ def train_bayesian_network(df: pd.DataFrame) -> BayesianNetwork:
     model = BayesianNetwork.from_samples(df, algorithm='exact')
     return model
 
-def print_model_structure(model: BayesianNetwork):
+def print_model_structure(model: BayesianNetwork) -> None:
     """
     Print the structure (edges) of the Bayesian Network.
     Args:
@@ -57,7 +60,7 @@ def print_model_structure(model: BayesianNetwork):
     for edge in model.structure:
         print(edge)
 
-def main():
+def main() -> None:
     # Build dataset
     df = build_dataset()
 
@@ -74,7 +77,7 @@ def main():
     print("\nPredictions (Bayesian Network):")
     print(predictions)
 
-def test_bayes_discretization():
+def test_bayes_discretization() -> None:
     """
     Basic test to ensure discretization works as expected and output DataFrame is correct.
     """
@@ -90,7 +93,7 @@ def test_bayes_discretization():
     assert set(df['Loan_cat'].unique()) <= allowed_loan, "Unexpected categories in Loan_cat."
     print("test_bayes_discretization passed.")
 
-def test_bayes_predictions_shape():
+def test_bayes_predictions_shape() -> None:
     """
     Test that Bayesian Network predicts the same number of rows as in the dataset.
     """
