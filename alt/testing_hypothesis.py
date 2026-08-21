@@ -1,14 +1,21 @@
+"""
+Module: alt/testing_hypothesis.py
+Purpose: Demonstration of t-test for comparing means and paired t-test for ML model comparisons. Includes visualization.
+"""
 from scipy import stats
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Example manual group data (replace with data.csv if needed)
-group1 = [12, 14, 15, 10, 13]
-group2 = [8, 9, 12, 11, 7]
-
 def main() -> None:
-    # --- T-test for two groups ---
+    """
+    Performs mean comparison (t-test) between two groups and paired t-test between two ML model scores.
+    Visualizes group means and prints outcomes.
+    """
+    # Example groups
+    group1 = [12, 14, 15, 10, 13]
+    group2 = [8, 9, 12, 11, 7]
+
     t_stat, p_val = stats.ttest_ind(group1, group2)
     print("t-statistic:", t_stat)
     print("p-value:", p_val)
@@ -17,7 +24,6 @@ def main() -> None:
     plt.title('Mean Comparison (t-test)')
     plt.show()
 
-    # --- Model comparison with paired t-test ---
     from sklearn.model_selection import cross_val_score
     from sklearn.datasets import load_iris
     from sklearn.linear_model import LogisticRegression
