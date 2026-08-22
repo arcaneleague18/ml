@@ -3,7 +3,7 @@ Module: alt/FindS.py
 Purpose: Implementation of the Find-S algorithm for concept learning.
 """
 
-def find_s(examples):
+def find_s(examples: list[tuple[list[str], str]]) -> list[str]:
     """
     Find-S algorithm implementation for learning the most specific hypothesis.
     Args:
@@ -32,7 +32,7 @@ def find_s(examples):
                     hypothesis[i] = '?'  # generalize
     return hypothesis
 
-def test_find_s():
+def test_find_s() -> None:
     """
     Simple unit test for the Find-S algorithm.
     Checks for correctness and expected output.
