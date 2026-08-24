@@ -1,6 +1,6 @@
 """
 Module: alt/FindS.py
-Purpose: Implementation of the Find-S algorithm for concept learning.
+Purpose: Implementation of the Find-S algorithm for concept learning with improved documentation and test coverage.
 """
 
 def find_s(examples: list[tuple[list[str], str]]) -> list[str]:
@@ -35,7 +35,7 @@ def find_s(examples: list[tuple[list[str], str]]) -> list[str]:
 def test_find_s() -> None:
     """
     Simple unit test for the Find-S algorithm.
-    Checks for correctness and expected output.
+    Checks for correctness, expected output, and edge cases.
     """
     dataset = [
         (["Sunny", "Warm", "Normal", "Strong", "Warm", "Same"], "Yes"),
