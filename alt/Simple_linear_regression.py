@@ -1,6 +1,6 @@
 """
 Module: alt/Simple_linear_regression.py
-Purpose: Simple demo of univariate linear regression (manual and sklearn) with mean squared error calculation and basic test.
+Purpose: Simple demo of univariate linear regression (manual and sklearn) with mean squared error calculation and comprehensive test coverage.
 """
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
@@ -21,7 +21,9 @@ def test_simple_linear_regression() -> None:
     """
     Basic test for manual linear regression calculation.
     Verifies correct MSE for a known case and checks for edge cases.
+    Also checks consistency with sklearn's LinearRegression.
     """
+    # Test perfect linear relation
     test_x = np.array([1, 2, 3])
     test_y = np.array([2, 4, 6])
     # Compute regression parameters manually
@@ -34,6 +36,11 @@ def test_simple_linear_regression() -> None:
     preds = predict_test(test_x)
     mse_val = np.mean((test_y - preds) ** 2)
     assert np.isclose(mse_val, 0), f"MSE should be zero for perfect linear fit, got {mse_val}"
+    # Test sklearn vs manual
+    model = LinearRegression()
+    model.fit(test_x.reshape(-1,1), test_y)
+    sklearn_preds = model.predict(test_x.reshape(-1,1))
+    assert np.allclose(sklearn_preds, preds), "sklearn and manual predictions should match."
     # Edge: all y the same
     test_x2 = np.array([1,2,3])
     test_y2 = np.array([5,5,5])

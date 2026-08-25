@@ -1,13 +1,13 @@
 """
 Module: alt/kmeans.py
-Purpose: K-means clustering demonstration on a synthetic 2D dataset with visualization.
+Purpose: K-means clustering demonstration on a synthetic 2D dataset with visualization and improved documentation.
 """
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 
-# 1️⃣ Create a self-made dataset
+# 1️⃣ Create a synthetic dataset with three clusters
 np.random.seed(42)
 cluster1 = np.random.randn(50, 2) + np.array([2, 2])
 cluster2 = np.random.randn(50, 2) + np.array([6, 6])
@@ -15,21 +15,21 @@ cluster3 = np.random.randn(50, 2) + np.array([2, 6])
 
 X = np.vstack((cluster1, cluster2, cluster3))
 
-# 2️⃣ Scale features
+# 2️⃣ Scale features for better clustering
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
-# 3️⃣ Apply K-Means clustering
+# 3️⃣ Apply K-Means clustering (k=3)
 kmeans = KMeans(n_clusters=3, random_state=42)
 kmeans.fit(X_scaled)
 
-# 4️⃣ Get results
+# 4️⃣ Get clustering results
 labels = kmeans.labels_
 centroids = kmeans.cluster_centers_
 
 print("Cluster centers (scaled):\n", centroids)
 
-# 5️⃣ Visualization
+# 5️⃣ Visualization of clusters and centroids
 plt.figure(figsize=(8, 6))
 plt.scatter(X_scaled[:, 0], X_scaled[:, 1], c=labels, cmap='viridis', s=50)
 plt.scatter(centroids[:, 0], centroids[:, 1], c='red', s=200, marker='X', label='Centroids')
