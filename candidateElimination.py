@@ -70,7 +70,7 @@ def test_candidate_elimination() -> None:
     s_final, g_final = candidate_elimination(concepts, target)
     assert isinstance(s_final, (list, np.ndarray)), "Output specific_h should be a list or np.ndarray"
     assert isinstance(g_final, list), "Output general_h should be a list"
-    assert len(s_final) == concepts.shape[1], "specific_h length must match concept attributes"
+    assert len(s_final) == concepts.shape[1], f"specific_h length must match concept attributes, got {len(s_final)} vs {concepts.shape[1]}"
     # Edge case: all negative
     try:
         candidate_elimination(np.array([

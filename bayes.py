@@ -61,6 +61,9 @@ def print_model_structure(model: BayesianNetwork) -> None:
         print(edge)
 
 def main() -> None:
+    """
+    Runs the full pipeline: builds dataset, trains Bayesian Network, prints structure, and predicts.
+    """
     # Build dataset
     df = build_dataset()
 
@@ -89,8 +92,8 @@ def test_bayes_discretization() -> None:
     # Test all categories are in allowed values
     allowed_income = {'Low', 'Medium', 'High'}
     allowed_loan = {'Small', 'Medium', 'Large'}
-    assert set(df['Income_cat'].unique()) <= allowed_income, "Unexpected categories in Income_cat."
-    assert set(df['Loan_cat'].unique()) <= allowed_loan, "Unexpected categories in Loan_cat."
+    assert set(df['Income_cat'].unique()) <= allowed_income, f"Unexpected categories in Income_cat: {df['Income_cat'].unique()}"
+    assert set(df['Loan_cat'].unique()) <= allowed_loan, f"Unexpected categories in Loan_cat: {df['Loan_cat'].unique()}"
     print("test_bayes_discretization passed.")
 
 def test_bayes_predictions_shape() -> None:
@@ -100,9 +103,9 @@ def test_bayes_predictions_shape() -> None:
     df = build_dataset()
     model = train_bayesian_network(df)
     predictions = model.predict(df)
-    assert len(predictions) == len(df), "Prediction shape mismatch with input rows."
+    assert len(predictions) == len(df), f"Prediction shape mismatch with input rows. Got {len(predictions)} vs {len(df)}"
     # Test predictions shape matches input shape
-    assert predictions.shape == df.shape, "Prediction matrix shape mismatch."
+    assert predictions.shape == df.shape, f"Prediction matrix shape mismatch. Got {predictions.shape} vs {df.shape}"
     print("test_bayes_predictions_shape passed.")
 
 if __name__ == "__main__":

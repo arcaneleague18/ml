@@ -12,7 +12,7 @@ def entropy(column: pd.Series) -> float:
     Args:
         column (pd.Series): The input categorical data.
     Returns:
-        float: Entropy value.
+        float: Entropy value (>= 0).
     """
     values = column.value_counts(normalize=True)
     return -sum(p * math.log2(p) for p in values if p > 0)
@@ -23,7 +23,7 @@ def gini(column: pd.Series) -> float:
     Args:
         column (pd.Series): The input categorical data.
     Returns:
-        float: Gini index value.
+        float: Gini index value (between 0 and 1).
     """
     values = column.value_counts(normalize=True)
     return 1 - sum(p**2 for p in values)
@@ -36,13 +36,15 @@ def info_gain(df: pd.DataFrame, attribute: str, target: str) -> float:
         attribute (str): Attribute to split on.
         target (str): Target column.
     Returns:
-        float: Information gain value.
+        float: Information gain value (>= 0).
     """
     total_entropy = entropy(df[target])
     values = df[attribute].unique()
     weighted_entropy = 0.0
     for v in values:
         subset = df[df[attribute] == v]
+        if len(df) == 0:
+            continue  # Defensive for divide by zero
         weighted_entropy += (len(subset)/len(df)) * entropy(subset[target])
     return total_entropy - weighted_entropy
 
@@ -77,7 +79,8 @@ def main():
 
     # Basic unit test for entropy, gini, info_gain
     print("\nBasic unit tests for entropy, gini, info_gain:")
-    assert abs(entropy(df["Species"])) >= 0, "Entropy should not be negative"
+    ent = entropy(df["Species"])
+    assert ent >= 0, f"Entropy should not be negative, got {ent}"
     g = gini(df["Species"])
     assert 0 <= g <= 1, f"Gini index should be between 0 and 1, got {g}"
     for feature in ["SepalLength", "SepalWidth", "PetalLength", "PetalWidth"]:
