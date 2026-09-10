@@ -8,8 +8,11 @@ def candidate_elimination(concepts: np.ndarray, target: np.ndarray) -> Tuple[Lis
         concepts (np.ndarray): Training examples, each row is an instance.
         target (np.ndarray): Target labels (e.g., 'Yes'/'No').
     Returns:
-        specific_h: The final specific hypothesis (most specific consistent with data).
-        general_h: List of final general hypotheses (most general consistent with data).
+        Tuple[list, list]:
+            - specific_h: The final specific hypothesis (most specific consistent with data).
+            - general_h: List of final general hypotheses (most general consistent with data).
+    Raises:
+        ValueError: If no positive example is found in training data.
     '''
     # Initialize specific hypothesis to the first positive example
     specific_h = None
