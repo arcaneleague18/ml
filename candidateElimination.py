@@ -1,3 +1,7 @@
+'''
+Module: candidateElimination.py
+Purpose: Candidate Elimination algorithm with demonstration and basic tests.
+'''
 import numpy as np
 from typing import List, Tuple, Any
 
@@ -26,6 +30,7 @@ def candidate_elimination(concepts: np.ndarray, target: np.ndarray) -> Tuple[Lis
     general_h = [[ '?' for _ in range(len(specific_h)) ] for _ in range(len(specific_h))]
     print("Initialization of general hypothesis:", general_h)
 
+    # Main learning loop
     for i, instance in enumerate(concepts):
         if target[i].strip().lower() == "yes":
             for x in range(len(specific_h)):
