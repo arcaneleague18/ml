@@ -1,3 +1,7 @@
+"""
+Module: alt/knn.py
+Purpose: Simple demonstration of K-Nearest Neighbors classification on synthetic 2D data with result reporting.
+"""
 import numpy as np
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import StandardScaler

@@ -1,3 +1,7 @@
+"""
+Module: alt/CandidateElimination.py
+Purpose: Implementation of the Candidate Elimination algorithm for concept learning with basic test coverage and demonstration.
+"""
 import numpy as np
 from typing import List, Tuple, Any
 
@@ -22,17 +26,20 @@ def candidate_elimination(concepts: np.ndarray, target: np.ndarray) -> Tuple[Lis
 
     print("Initialization of specific hypothesis:", specific_h)
 
-    # Initialize general hypothesis with the most general hypothesis
+    # Initialize general hypothesis (set of maximally general hypotheses)
     general_h = [[ '?' for _ in range(len(specific_h)) ] for _ in range(len(specific_h))]
     print("Initialization of general hypothesis:", general_h)
 
+    # Iterate through all instances
     for i, instance in enumerate(concepts):
         if target[i].strip().lower() == "yes":
+            # For positive examples, specialize specific_h and generalize general_h
             for x in range(len(specific_h)):
                 if instance[x] != specific_h[x]:
                     specific_h[x] = '?'
                     general_h[x][x] = '?'
         elif target[i].strip().lower() == "no":
+            # For negative examples, specialize general_h
             for x in range(len(specific_h)):
                 if instance[x] != specific_h[x]:
                     general_h[x][x] = specific_h[x]
