@@ -1,7 +1,7 @@
 import numpy as np
-from typing import List, Tuple, Any
+from typing import List, Tuple, Any, Union
 
-def candidate_elimination(concepts: np.ndarray, target: np.ndarray) -> Tuple[List[Any], List[List[Any]]]:
+def candidate_elimination(concepts: np.ndarray, target: np.ndarray) -> Tuple[Union[List[Any], np.ndarray], List[List[Any]]]:
     '''
     Candidate Elimination Algorithm for concept learning.
     Args:
@@ -10,6 +10,8 @@ def candidate_elimination(concepts: np.ndarray, target: np.ndarray) -> Tuple[Lis
     Returns:
         specific_h: The final specific hypothesis (most specific consistent with data).
         general_h: List of final general hypotheses (most general consistent with data).
+    Raises:
+        ValueError: If no positive example is found in training data.
     '''
     # Initialize specific hypothesis to the first positive example
     specific_h = None
@@ -23,16 +25,17 @@ def candidate_elimination(concepts: np.ndarray, target: np.ndarray) -> Tuple[Lis
     print("Initialization of specific hypothesis:", specific_h)
 
     # Initialize general hypothesis with the most general hypothesis
-    general_h = [[ '?' for _ in range(len(specific_h)) ] for _ in range(len(specific_h))]
+    general_h: List[List[Any]] = [[ '?' for _ in range(len(specific_h)) ] for _ in range(len(specific_h))]
     print("Initialization of general hypothesis:", general_h)
 
     for i, instance in enumerate(concepts):
-        if target[i].strip().lower() == "yes":
+        label = target[i].strip().lower()
+        if label == "yes":
             for x in range(len(specific_h)):
                 if instance[x] != specific_h[x]:
                     specific_h[x] = '?'
                     general_h[x][x] = '?'
-        elif target[i].strip().lower() == "no":
+        elif label == "no":
             for x in range(len(specific_h)):
                 if instance[x] != specific_h[x]:
                     general_h[x][x] = specific_h[x]
